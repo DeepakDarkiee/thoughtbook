@@ -52,7 +52,7 @@ def user_login(request):
                 return HttpResponseRedirect("/admin")
             else:
                 messages.success(request," Successfully Logged in ")
-                res = HttpResponse("logged in")
+                res = HttpResponseRedirect("/index")
                 if "rememberme" in request.POST:
                     res.set_cookie("user_id",user.id)
                     res.set_cookie("date_login",datetime.now())
