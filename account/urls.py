@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('', views.register_user,name="signup"),
+    path('signup', views.register_user,name="signup"),
     path("signin",views.user_login,name="signin"),
     path("check_user/",views.check_user,name="check_user"),
     path("logout/",views.user_logout,name="logout"),

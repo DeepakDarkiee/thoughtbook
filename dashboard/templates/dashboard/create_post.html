@@ -1,0 +1,79 @@
+{% include 'dashboard/base.html' %}
+{% block base %}
+{% load crispy_forms_tags %}
+<div class="content mt-3">
+    <div class="animated fadeIn">
+
+
+        <div class="row">
+            <div class="col-lg-6">
+                
+
+            </div>
+            <!--/.col-->
+
+            <div class="col-lg-12">
+                <div class="card">
+                   
+                    <div class="card-body card-block">
+                        <div class="col-lg-1">
+                            </div>   
+
+                                        <div class="col-lg-10">
+                                            <div class="card">
+                                                <div class="card-header">Create Post</div>
+                                                <div class="card-body card-block">
+                                                    <form action="{% url 'post' %}" method="post" class="">
+                                                        {% csrf_token %}
+                                                        <!-- {{form.as_p}} -->
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                                                {{form.title}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
+                                                                {{form.slug}}
+                                                        </div>
+                                                        <br>
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon"><i class="fa fa-unlock-alt"></i> </div>
+                                                                {{ form.content}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon"><i class="fa fa-unlock-alt"></i> </div>
+                                                                {{ form.status}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-actions form-group"><button type="submit" class="btn btn-success btn-sm">Submit</button></div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1">
+                                    </div>   
+                                </div><!-- .animated -->
+                            </div><!-- .content -->
+                        </div><!-- /#right-panel -->
+                        <!-- Right Panel -->
+{% endblock base%}
+
+{% block footer %}
+
+                    <script src="vendors/jquery/dist/jquery.min.js"></script>
+                    <script src="vendors/popper.js/dist/umd/popper.min.js"></script>
+
+                    <script src="vendors/jquery-validation/dist/jquery.validate.min.js"></script>
+                    <script src="vendors/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+
+                    <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+                    <script src="assets/js/main.js"></script>
+</body>
+</html>
+{% endblock footer %}

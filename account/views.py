@@ -48,15 +48,18 @@ def user_login(request):
         user = authenticate(username=username,password=password)
         if user:
             login(request,user)
-            if user.is_superuser:
-                return HttpResponseRedirect("/admin")
+            if user.is_authenticated:
+                if user.is_superuser:
+                    return HttpResponseRedirect("/admin")
+                else:
+                    messages.success(request," Successfully Logged in ")
+                    res = HttpResponseRedirect("/index")
+                    if "rememberme" in request.POST:
+                        res.set_cookie("user_id",user.id)
+                        res.set_cookie("date_login",datetime.now())
+                    return res
             else:
-                messages.success(request," Successfully Logged in ")
-                res = HttpResponseRedirect("/index")
-                if "rememberme" in request.POST:
-                    res.set_cookie("user_id",user.id)
-                    res.set_cookie("date_login",datetime.now())
-                return res
+                return HttpResponseRedirect("/")
         else:
             messages.success(request,"Incorrect username or Password")
             return render(request,"account/login.html")
