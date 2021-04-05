@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-
-
+from autoslug import AutoSlugField
+from django.utils.text import slugify
 STATUS = (
     (0,"Draft"),
     (1,"Publish")
@@ -15,7 +15,10 @@ class Post(models.Model):
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
-
+    def save(self, *args, **kwargs):
+            self.slug = slugify(self.title)
+            super(Post, self).save(*args, **kwargs)
+            
     class Meta:
         ordering = ['-created_on']
 

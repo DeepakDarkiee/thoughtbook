@@ -16,7 +16,7 @@ class PostForm(forms.ModelForm):
             
         }
         fields = "__all__"
-        exclude = ('author',)
+        exclude = ('author','slug')
 
 
 

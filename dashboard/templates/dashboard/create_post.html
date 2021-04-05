@@ -1,6 +1,7 @@
 {% include 'dashboard/base.html' %}
-{% block base %}
 {% load crispy_forms_tags %}
+
+{% block base %}
 <div class="content mt-3">
     <div class="animated fadeIn">
 
@@ -32,11 +33,7 @@
                                                                 {{form.title}}
                                                             </div>
                                                         </div>
-                                                        <div class="form-group">
-                                                            <div class="input-group">
-                                                                <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
-                                                                {{form.slug}}
-                                                        </div>
+                                        
                                                         <br>
                                                         <div class="form-group">
                                                             <div class="input-group">
@@ -62,18 +59,8 @@
                             </div><!-- .content -->
                         </div><!-- /#right-panel -->
                         <!-- Right Panel -->
-{% endblock base%}
+                        {% endblock base %}
 
 {% block footer %}
 
-                    <script src="vendors/jquery/dist/jquery.min.js"></script>
-                    <script src="vendors/popper.js/dist/umd/popper.min.js"></script>
-
-                    <script src="vendors/jquery-validation/dist/jquery.validate.min.js"></script>
-                    <script src="vendors/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
-
-                    <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-                    <script src="assets/js/main.js"></script>
-</body>
-</html>
 {% endblock footer %}
