@@ -1,5 +1,6 @@
 from post.models import Post
 from django import forms
+from ckeditor_uploader.widgets import  CKEditorUploadingWidget
 
 STATUS = (
     (0,"Draft"),
@@ -11,7 +12,7 @@ class PostForm(forms.ModelForm):
         widgets = {
             'title' : forms.TextInput(attrs={'class':'form-control','placeholder':'Title'}),
             'slug' : forms.TextInput(attrs={'class':'form-control','placeholder':'Slug'}),
-            'content' : forms.Textarea(attrs={'class':'form-control','placeholder':'Content'}),
+            'content' : CKEditorUploadingWidget(),
             'status' : forms.Select(choices = STATUS,attrs={'class':'form-control','placeholder':'Status'}),
             
         }

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from autoslug import AutoSlugField
 from django.utils.text import slugify
+from ckeditor_uploader.fields import  RichTextUploadingField
 STATUS = (
     (0,"Draft"),
     (1,"Publish")
@@ -12,7 +13,7 @@ class Post(models.Model):
     slug = models.SlugField(max_length=200, unique=True)
     author = models.ForeignKey(User, on_delete= models.CASCADE,related_name='blog_posts')
     updated_on = models.DateTimeField(auto_now= True)
-    content = models.TextField()
+    content = RichTextUploadingField()
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
     def save(self, *args, **kwargs):
@@ -40,14 +41,17 @@ class Contact(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
-    name = models.CharField(max_length=80)
-    email = models.EmailField()
-    body = models.TextField()
+    created_by=models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=False)
+    # manually deactivate inappropriate comments from admin site
+    parent = models.ForeignKey('self', null=True, blank=True, related_name='replies',on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ["created_on"]
+        # sort comments in chronological order by default
+        ordering = ('created_on',)
 
     def __str__(self):
-        return "Comment {} by {}".format(self.body, self.name)
+        return "Comment {} by {}".format(self.content, self.created_by)
+

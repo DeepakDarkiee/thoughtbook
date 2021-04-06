@@ -24,14 +24,14 @@
                             </thead>
                             <tbody>
                                 
-                                {% for post in post_list %}
-                                    
-                                
+                                {% for post in post_list %}  
                                 <tr>
-                                    <td>{{post.title}}</td>
-                                    <td>{{post.content|slice:":50"}}</td>
+                                    <td>{{post.title|title|slice:":30"}}...</td>
+                                    <td>{{post.content|slice:":50"}}...</td>
                                     <td>{{post.created_on}}</td>
-                                    <td>{{post.get_status_display}}</td>
+                                        
+                                    <td {% if post.status is 1 %}style="color: green" {%else %} style="color:red" {%endif %}><b>{{post.get_status_display}}</b></td>
+                                    <!-- <td>{{post.get_status_display}}</td> -->
                                     <td>
                                         <button type="button" class="btn btn-primary"><i class="fa fa-magic"></i>&nbsp; Edit</button>&nbsp;
                                         <button type="button" class="btn btn-danger"><i class="fa fa-trash-o"></i> &nbsp; Delete</button>

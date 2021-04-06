@@ -25,33 +25,42 @@
 
         <div class="comments" style="padding: 10px;">
           <p class="font-weight-bold">
-            {{ comment.name }}
+            {{ comment.created_by }}
             <span class=" text-muted font-weight-normal">
               {{ comment.created_on }}
             </span>
           </p>
-          {{ comment.body | linebreaks }}
+          {{ comment.content | linebreaks }}
         </div>
-
+    <div class="replied-comments container mt-2">
+      <div class="form-group row">
+        <div class="card-body">
+          {% if new_comment %}
+          <div class="alert alert-success" role="alert">
+            Your comment is awaiting moderation
+          </div>
+          {% else %}
+          <h3>Leave a comment</h3>
+          <form method="post" style="margin-top: 1.3em;" class="uniForm" action="{% url 'post_detail' comment.post.slug %}">
+            {% csrf_token %}
+            {{ comment_form | crispy }}
+            
+            {% if request.user.is_authenticated %}
+            <button type="submit" class="btn btn-danger btns  btn-lg">Submit</button>
+              {% else %}
+            <button type="submit" class="btn btn-danger btns  btn-lg" disabled>Submit</button>
+            <p>log in to comment</p>
+            {% endif %}
+              
+          </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
         {% endfor %}
       </div>
     </div>
-    <div class="col-md-8 card mb-4  mt-3 ">
-      <div class="card-body">
-        {% if new_comment %}
-        <div class="alert alert-success" role="alert">
-          Your comment is awaiting moderation
-        </div>
-        {% else %}
-        <h3>Leave a comment</h3>
-        <form method="post" style="margin-top: 1.3em;" class="uniForm">
-          {{ comment_form | crispy }}
-          {% csrf_token %}
-          <button type="submit" class="btn btn-danger btns  btn-lg">Submit</button>
-        </form>
-        {% endif %}
-      </div>
-    </div>
+ 
   </div>
 </div>
 
