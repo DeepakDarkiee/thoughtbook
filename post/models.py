@@ -46,7 +46,7 @@ class Comment(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=False)
     # manually deactivate inappropriate comments from admin site
-    parent = models.ForeignKey('self', null=True, blank=True, related_name='replies',on_delete=models.CASCADE)
+    reply = models.ForeignKey('self', null=True, blank=True, related_name='replies',on_delete=models.CASCADE)
 
     class Meta:
         # sort comments in chronological order by default

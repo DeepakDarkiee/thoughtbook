@@ -5,7 +5,7 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = "__all__"
-        exclude=('post','created_by','active','parent')
+        exclude=('post','created_by','active','reply')
         widgets = {
             'content' : forms.Textarea(attrs={'class':'form-control','placeholder':'Content'}),       
         }

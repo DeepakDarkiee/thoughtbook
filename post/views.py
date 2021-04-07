@@ -1,7 +1,7 @@
 from django.views import generic
 from .models import Comment, Post,Contact
 from .forms import CommentForm, ContactForm
-from django.shortcuts import render, get_object_or_404,redirect,HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404,redirect,HttpResponseRedirect,HttpResponse
 from django.db.models import Q
 from django.views.generic import TemplateView, ListView
 from django.contrib import messages
@@ -37,36 +37,20 @@ class PostDetail(generic.DetailView):
         context = super(PostDetail, self).get_context_data(**kwargs)
         post = get_object_or_404(Post, slug=self.kwargs['slug'])
         comments = Comment.objects.filter(
-            post=post, parent=None).order_by('-id')
-
-        def post(self, request, *args, **kwargs):
-            comment_form = CommentForm(self.request.POST or None)
-            if comment_form.is_valid():
-                content = self.request.POST.get('content')
-                comments=Comment.objects.create(post=post,created_by=self.request.user,content=content)
-                return HttpResponseRedirect("post_detail.html")
-        
+            post=post, reply=None).order_by('-id')
         comment_form = CommentForm()
-
         context["comments"] = comments
         context["comment_form"] = comment_form
         return context
 
-# class PostCommentCreateView(LoginRequiredMixin, generic.CreateView):
-#     model = Comment
-#     form_class = CommentForm
-
-#     def form_valid(self, form):
-#         post = get_object_or_404(Post, slug=self.kwargs['slug'])
-#         form.instance.created_by = self.request.user
-#         form.instance.post = post
-#         return super().form_valid(form)
-
-#     def form_invalid(self, form):
-#         return HttpResponseRedirect(self.get_success_url())
-
-#     def get_success_url(self,re):
-#         return reverse('score:post-detail', kwargs=dict(slug=self.kwargs['slug']))
+    def post(self, request, *args, **kwargs):
+        post = get_object_or_404(Post, slug=self.kwargs['slug'])
+        comment_form = CommentForm(self.request.POST or None)
+        if comment_form.is_valid():
+            content = self.request.POST.get('content')
+            comments=Comment.objects.create(post=post,created_by=self.request.user,content=content)
+            return HttpResponseRedirect(f"/{self.kwargs['slug']}")
+        
 
 class Contact(SuccessMessageMixin,generic.CreateView):
     form_class = ContactForm
