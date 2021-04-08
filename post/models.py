@@ -24,7 +24,7 @@ class Post(models.Model):
         ordering = ['-created_on']
 
     def __str__(self):
-        return self.title
+        return self.slug
 
 class Contact(models.Model):
     name = models.CharField(max_length=80)

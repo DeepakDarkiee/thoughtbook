@@ -2,16 +2,28 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.views import generic
 from django.http import request
 from django.http.response import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from .forms import PostForm 
-from post.models import Post
+from post.models import Comment, Post
 from django.views.generic import View
 from django.contrib import messages
 
 # Create your views here.
-def index(request):
-    return render(request,'dashboard/index.html')
+# def index(request):
+#     return render(request,'dashboard/index.html')
 
+class IndexView(generic.ListView):
+    template_name = "dashboard/index.html"
+    queryset =Post.objects.all()
+    queryset1=Comment.objects.all()
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_post'] = self.queryset.filter(author=self.request.user).count()
+        context['total_publish_post'] = self.queryset.filter(author=self.request.user,status=1).count()
+        context['total_draft_post'] = self.queryset.filter(author=self.request.user,status=0).count()
+        context['total_comment'] = self.queryset1.filter(created_by=self.request.user).count()
+        return context
 
 class PostView(generic.ListView):
     template_name="dashboard/view_post.html"  
@@ -60,4 +72,21 @@ class UpdatePost(generic.UpdateView):
 class DetailPost(generic.DetailView):
     model = Post 
     template_name = "dashboard/detail_post.html" 
-    context_object_name = "detail_post"       
+    context_object_name = "detail_post"
+    def get_context_data(self, *args, **kwargs):
+        context = super(DetailPost, self).get_context_data(**kwargs)
+        post = get_object_or_404(Post, slug=self.kwargs['slug'])
+        comments = Comment.objects.filter(
+            post=post, reply=None).order_by('-id')
+        context["comments"] = comments
+        return context   
+  
+
+
+class CommentView(generic.ListView):
+    template_name = "dashboard/view_comment.html"     
+
+    def get_queryset(self):
+        queryset=Comment.objects.filter(created_by=self.request.user).order_by('-id')
+        print(queryset)
+        return queryset
