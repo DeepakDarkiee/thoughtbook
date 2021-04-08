@@ -23,10 +23,10 @@
                         <div class="col-lg-10">
                             <div class="card">
                                 <center>
-                                    <div class="card-header">Create Post</div>
+                                    <div class="card-header">Update Post</div>
                                 </center>
                                 <div class="card-body card-block">
-                                    <form action="{% url 'post' %}" method="post" class="">
+                                    <form action="{% url 'update_post' post.id %}" method="post" class="">
                                         {% csrf_token %}
                                         <!-- {{form.as_p}} -->
                                         <div class="form-group">
@@ -50,7 +50,7 @@
                                     </div>
                                 </div>
                                 <div class="form-actions form-group"><button type="submit"
-                                        class="btn btn-success rounded">Submit</button></div>
+                                    class="btn btn-success rounded">Submit</button></div>
                                 </form>
                             </div>
                         </div>

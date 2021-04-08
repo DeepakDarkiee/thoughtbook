@@ -38,8 +38,26 @@ class CreatePostView(SuccessMessageMixin,generic.CreateView):
 #         post.delete()
 #         messages.success(request,"Deleted Successfully")
 #         return HttpResponseRedirect('/dashboard/view_post')
+from django.urls import reverse_lazy
 
 class DeletePost(generic.DeleteView):
     model = Post
-    Template_name = 'dashboard/delete_post.html'
-     
+    Template_name = 'post/post_confirm_delete.html'
+    success_url = reverse_lazy('view_post')
+
+class UpdatePost(generic.UpdateView):
+    form_class = PostForm
+    model = Post
+    template_name = "dashboard/update_post.html"
+    success_url ="/dashboard/view_post/"
+    success_message = "Post was updated successfully"
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.author = self.request.user
+        return super(UpdatePost, self).form_valid(form)
+
+
+class DetailPost(generic.DetailView):
+    model = Post 
+    template_name = "dashboard/detail_post.html" 
+    context_object_name = "detail_post"       
