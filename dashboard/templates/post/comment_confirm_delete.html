@@ -1,0 +1,38 @@
+{% include 'dashboard/base.html' %}
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="card">  
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                        <center>
+                        <div class="container">
+                            <h1>Delete Account</h1>
+                            <p>Are you sure you want to delete your account?</p>
+                            <div class="clearfix">
+                              <a href= "{% url 'comment_view' %}"><button type="button" class="btn btn-primary">Cancel</button></a>
+                              <button type="submit" class="btn btn-danger" value="submit">Delete</button>
+                            </div>
+                        </div>
+
+                    </center>
+                </form>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div><!-- .animated -->
+</div><!-- .content -->
+
+
+</div><!-- /#right-panel -

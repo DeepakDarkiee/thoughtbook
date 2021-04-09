@@ -7,6 +7,8 @@ from .forms import PostForm
 from post.models import Comment, Post
 from django.views.generic import View
 from django.contrib import messages
+from django.urls import reverse_lazy
+
 
 # Create your views here.
 # def index(request):
@@ -50,7 +52,6 @@ class CreatePostView(SuccessMessageMixin,generic.CreateView):
 #         post.delete()
 #         messages.success(request,"Deleted Successfully")
 #         return HttpResponseRedirect('/dashboard/view_post')
-from django.urls import reverse_lazy
 
 class DeletePost(generic.DeleteView):
     model = Post
@@ -79,10 +80,10 @@ class DetailPost(generic.DetailView):
         comments = Comment.objects.filter(
             post=post, reply=None).order_by('-id')
         context["comments"] = comments
-        return context   
+        return context 
+
+ # <----------- Comment --------->         
   
-
-
 class CommentView(generic.ListView):
     template_name = "dashboard/view_comment.html"     
 
@@ -90,3 +91,8 @@ class CommentView(generic.ListView):
         queryset=Comment.objects.filter(created_by=self.request.user).order_by('-id')
         print(queryset)
         return queryset
+
+class CommentDelete(generic.DeleteView):
+    model = Comment
+    template = "post/comment_confirm_delete.html"
+    success_url = "/dashboard/comment_view"

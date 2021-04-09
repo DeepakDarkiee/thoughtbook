@@ -20,12 +20,18 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path,include
 from django.views.static import serve
+import notifications.urls
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('account.urls')),
     path('dashboard/',include('dashboard.urls')),
     path('',include('post.urls')),
+    path('notifications/', include('notifications_rest.urls')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    url('^inbox/notifications/', include(notifications.urls, namespace='notifications')),
+
 ]  
 if settings.DEBUG:
     urlpatterns += [

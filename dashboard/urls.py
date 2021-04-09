@@ -9,6 +9,7 @@ urlpatterns = [
     path('update_post/<int:pk>',views.UpdatePost.as_view(),name='update_post'),
     path('detail_post/<slug:slug>',views.DetailPost.as_view(),name='detail_post'),
 
-    path('Comment_view',views.CommentView.as_view(),name='comment_view')
+    path('comment_view',views.CommentView.as_view(),name='comment_view'),
+    path('comment_delete/delete/<int:pk>',views.CommentDelete.as_view(),name='comment_delete'),
 
 ]

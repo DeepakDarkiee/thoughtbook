@@ -11,6 +11,9 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
+from notifications.signals import notify
+
+
 
 class PostList(generic.ListView):
     queryset = Post.objects.filter(status=1).order_by("-created_on")
@@ -49,6 +52,10 @@ class PostDetail(generic.DetailView):
         if comment_form.is_valid():
             content = self.request.POST.get('content')
             comments=Comment.objects.create(post=post,created_by=self.request.user,content=content)
+            sender = request.user
+            recipient = request.user
+            message = f"[{comments.created_on}]{comments.created_by} commented {content} on {comments.post.title[:50]}"   
+            notify.send(sender=sender, recipient=recipient, verb='Message',description=message)
             return HttpResponseRedirect(f"/{self.kwargs['slug']}")
         
 
